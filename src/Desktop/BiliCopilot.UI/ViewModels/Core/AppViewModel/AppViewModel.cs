@@ -14,7 +14,6 @@ using Richasy.WinUIKernel.Share.Toolkits;
 using Richasy.WinUIKernel.Share.ViewModels;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using Windows.Storage;
 using Windows.System;
 using Windows.Win32.UI.WindowsAndMessaging;
 using WinUIEx;
@@ -51,8 +50,17 @@ public sealed partial class AppViewModel : ViewModelBase
     [RelayCommand]
     private static void Restart()
     {
-        Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().UnregisterKey();
-        Microsoft.Windows.AppLifecycle.AppInstance.Restart(default);
+        try
+        {
+            Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().UnregisterKey();
+            Microsoft.Windows.AppLifecycle.AppInstance.Restart(default);
+        }
+        catch (COMException)
+        {
+            // 未打包时 AppInstance 重启不可用, 退回进程级重启.
+            _ = Process.Start(new ProcessStartInfo(Environment.ProcessPath!) { UseShellExecute = true });
+            Application.Current.Exit();
+        }
     }
 
     [RelayCommand]
@@ -60,11 +68,8 @@ public sealed partial class AppViewModel : ViewModelBase
     {
         var architecture = RuntimeInformation.ProcessArchitecture;
         var identifier = architecture == Architecture.Arm64 ? "arm64" : "x64";
-        var bbdownFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/BBDown/{identifier}/BBDown.exe")).AsTask();
-        BBDownPath = bbdownFile.Path;
-
-        var ffmpegFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/ffmpeg/{identifier}/ffmpeg.exe")).AsTask();
-        FFmpegPath = ffmpegFile.Path;
+        BBDownPath = Path.Combine(PortableToolkit.InstalledPath, "Assets", "BBDown", identifier, "BBDown.exe");
+        FFmpegPath = Path.Combine(PortableToolkit.InstalledPath, "Assets", "ffmpeg", identifier, "ffmpeg.exe");
 
         _ = await this.Get<IFontToolkit>().GetFontsAsync();
     }
@@ -235,7 +240,7 @@ public sealed partial class AppViewModel : ViewModelBase
             // 构建服务路径
             var architecture = RuntimeInformation.ProcessArchitecture;
             var identifier = architecture == Architecture.Arm64 ? "arm64" : "x64";
-            var servicePath = Path.Combine(Package.Current.InstalledPath, "Assets", "visor", identifier, "BiliCopilot.Visor.exe");
+            var servicePath = Path.Combine(PortableToolkit.InstalledPath, "Assets", "visor", identifier, "BiliCopilot.Visor.exe");
 
             if (!File.Exists(servicePath))
             {

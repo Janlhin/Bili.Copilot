@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using Vortice.DXGI;
-using Windows.Storage;
 
 namespace BiliCopilot.UI.Toolkits;
 
@@ -160,12 +159,14 @@ internal sealed partial class AppToolkit : SharedAppToolkit
 
     public static async Task<string> EnsureMpvConfigExistAsync()
     {
-        var localFolder = Microsoft.Windows.Storage.ApplicationData.GetDefault().LocalFolder;
-        var destPath = Path.Combine(localFolder.Path, "mpv.conf");
+        var destPath = Path.Combine(PortableToolkit.LocalFolderPath, "mpv.conf");
         if (!File.Exists(destPath))
         {
-            var defaultConfig = await StorageFile.GetFileFromApplicationUriAsync(new("ms-appx:///Assets/basic-mpv.conf"));
-            await defaultConfig.CopyAsync(localFolder, "mpv.conf", NameCollisionOption.ReplaceExisting).AsTask();
+            var sourcePath = Path.Combine(PortableToolkit.InstalledPath, "Assets", "basic-mpv.conf");
+            if (File.Exists(sourcePath))
+            {
+                File.Copy(sourcePath, destPath, true);
+            }
         }
 
         return destPath;

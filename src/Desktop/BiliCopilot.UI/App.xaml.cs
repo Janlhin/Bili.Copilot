@@ -12,6 +12,7 @@ using Microsoft.Windows.AppLifecycle;
 using Microsoft.Windows.AppNotifications;
 using Richasy.BiliKernel.Models.Media;
 using Serilog;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 
 namespace BiliCopilot.UI;
@@ -36,7 +37,14 @@ public partial class App : Application
         UnhandledException += OnUnhandledException;
         _notificationManager = AppNotificationManager.Default;
         _notificationManager.NotificationInvoked += OnAppNotificationInvoked;
-        _notificationManager.Register();
+        try
+        {
+            _notificationManager.Register();
+        }
+        catch (COMException)
+        {
+            // 未打包且未注册 AUMID 时通知不可用, 降级为应用内提示.
+        }
     }
 
     /// <summary>
@@ -52,18 +60,29 @@ public partial class App : Application
     /// <param name="args">Details about the launch request and process.</param>
     protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
     {
-        var instance = Microsoft.Windows.AppLifecycle.AppInstance.FindOrRegisterForKey(Id);
-        if (instance.IsCurrent)
+        Microsoft.Windows.AppLifecycle.AppInstance? instance = null;
+        try
         {
-            var rootFolder = Microsoft.Windows.Storage.ApplicationData.GetDefault().LocalFolder;
-            var fullPath = $"{rootFolder.Path}\\Logger";
+            instance = Microsoft.Windows.AppLifecycle.AppInstance.FindOrRegisterForKey(Id);
+        }
+        catch (COMException)
+        {
+            // 未打包时单实例注册可能不可用, 直接作为独立实例启动.
+        }
+
+        if (instance is null || instance.IsCurrent)
+        {
+            var fullPath = Path.Combine(PortableToolkit.LocalFolderPath, "Logger");
             LoggerFolder = fullPath;
             if (!Directory.Exists(fullPath))
             {
                 _ = Directory.CreateDirectory(fullPath);
             }
 
-            instance.Activated += OnInstanceActivated;
+            if (instance is not null)
+            {
+                instance.Activated += OnInstanceActivated;
+            }
             Richasy.WinUIKernel.Share.Base.ImageExBase.EnableBackgroundDecoding = false;
             GlobalDependencies.Initialize();
             GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().LaunchCommand.Execute(default);

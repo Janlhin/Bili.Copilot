@@ -129,6 +129,22 @@ git clone https://github.com/Richasy/Bili.Copilot.git
 
 部分同学可能有自己配置好的 BBDown，那么可以在设置页面的下载设置中打开 `下载时调用外部BBDown`。你还可以选择在下载时仅复制下载命令，以便进行二次编辑。
 
+## 免安装版（Portable）
+
+本 fork 增加了免安装构建通道：不需要 MSIX、不需要管理员权限，解压后双击 `BiliCopilot.UI.exe` 即可运行。
+
+构建前置条件：.NET SDK 9.0+、Windows SDK 10.0.22621+、Visual Studio 2022 生成工具（含 Windows App SDK 组件）。
+
+```powershell
+pwsh -NoLogo -NoProfile -File ./scripts/publish-portable.ps1
+```
+
+产物位于 `src/Desktop/BiliCopilot.UI/bin/Release/net9.0-windows10.0.22621.0/win-x64/portable/`。脚本会校验主程序、WinUI 原生依赖、libmpv、ffmpeg、BBDown 兼容层与 `bili.exe` 是否齐全，并确认输出中不再有 `AppxManifest.xml`。
+
+实现要点：发布配置切换 `WindowsPackageType=None`、WASDK 自包含与 bootstrap 初始化，关闭 MSIX 工具与部署期自初始化；`Package.Current.InstalledPath` 与 `ApplicationData.GetDefault()` 在免包标识时回退到程序目录与 `%LOCALAPPDATA%\BiliCopilot\`；设置存储回退到本地 JSON；磁贴、通知注册与单实例在不可用时降级而不崩溃。MSIX 通道保持原样，未做改动。
+
+已知限制：仅提供 x64 产物；Toast/磁贴/协议激活在免安装形态下不可用；首次使用下载器仍需执行 `bili.exe login`。
+
 ## 交流讨论
 
 有兴趣一起交流的话，可以加 QQ 群，进群请注明正在使用哪款软件。

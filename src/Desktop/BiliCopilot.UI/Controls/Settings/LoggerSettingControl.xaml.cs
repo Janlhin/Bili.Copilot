@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Toolkits;
 using Richasy.MpvKernel;
 using Windows.Storage;
 using Windows.System;
@@ -16,7 +17,7 @@ public sealed partial class LoggerSettingControl : SettingsPageControlBase
     /// </summary>
     public LoggerSettingControl() => InitializeComponent();
 
-    private static string LoggerFolder => Path.Combine(Microsoft.Windows.Storage.ApplicationData.GetDefault().LocalFolder.Path, "Logger");
+    private static string LoggerFolder => Path.Combine(PortableToolkit.LocalFolderPath, "Logger");
 
     private async void OnOpenLoggerFolderButtonClick(object sender, RoutedEventArgs e)
     {

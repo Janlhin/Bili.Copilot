@@ -73,7 +73,7 @@ public sealed partial class PlayerViewModel
             {
                 var architecture = RuntimeInformation.ProcessArchitecture;
                 var identifier = architecture == Architecture.Arm64 ? "arm64" : "x64";
-                mpvPath = Path.Combine(Package.Current.InstalledPath, "Assets", "libmpv", identifier, "libmpv-2.dll");
+                mpvPath = Path.Combine(PortableToolkit.InstalledPath, "Assets", "libmpv", identifier, "libmpv-2.dll");
             }
 
             var configPath = string.Empty;
@@ -997,7 +997,7 @@ public sealed partial class PlayerViewModel
             return [];
         }
 
-        var assetsFolder = Path.Combine(Package.Current.InstalledPath, "Assets", "Anime4K");
+        var assetsFolder = Path.Combine(PortableToolkit.InstalledPath, "Assets", "Anime4K");
         if (mode == Anime4KMode.LowA)
         {
             return [GetShaderPath("Anime4K_Clamp_Highlights.glsl"), GetShaderPath("Anime4K_Restore_CNN_M.glsl"), GetShaderPath("Anime4K_Upscale_CNN_x2_M.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x2.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x4.glsl"), GetShaderPath("Anime4K_Upscale_CNN_x2_S.glsl")];
@@ -1059,7 +1059,7 @@ public sealed partial class PlayerViewModel
             return [];
         }
 
-        var assetsFolder = Path.Combine(Package.Current.InstalledPath, "Assets", "ArtCNN");
+        var assetsFolder = Path.Combine(PortableToolkit.InstalledPath, "Assets", "ArtCNN");
         if (mode == ArtCNNMode.C4F16)
         {
             return [GetShaderPath("ArtCNN_C4F16.glsl")];
@@ -1104,8 +1104,8 @@ public sealed partial class PlayerViewModel
             return [];
         }
 
-        var assetsFolder = Path.Combine(Package.Current.InstalledPath, "Assets", "nnedi3");
-        var igvFolder = Path.Combine(Package.Current.InstalledPath, "Assets", "igv");
+        var assetsFolder = Path.Combine(PortableToolkit.InstalledPath, "Assets", "nnedi3");
+        var igvFolder = Path.Combine(PortableToolkit.InstalledPath, "Assets", "igv");
 
         if (mode == Nnedi3Mode.Basic)
         {
@@ -1137,7 +1137,7 @@ public sealed partial class PlayerViewModel
             return [];
         }
 
-        var assetsFolder = Path.Combine(Package.Current.InstalledPath, "Assets", "Ravu");
+        var assetsFolder = Path.Combine(PortableToolkit.InstalledPath, "Assets", "Ravu");
 
         if (mode == RavuMode.LiteArR2)
         {

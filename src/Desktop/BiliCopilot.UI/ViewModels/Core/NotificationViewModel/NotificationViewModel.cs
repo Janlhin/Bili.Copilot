@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Moment;
 using Richasy.WinUIKernel.Share.ViewModels;
+using System.Runtime.InteropServices;
 using Windows.UI.Notifications;
 using Windows.UI.StartScreen;
 
@@ -54,12 +55,20 @@ public sealed partial class NotificationViewModel : ViewModelBase
     [RelayCommand]
     private async Task InitializeAsync()
     {
-        var entry = (await Package.Current.GetAppListEntriesAsync()).First();
-        _isTileSupport = StartScreenManager.GetDefault().SupportsAppListEntry(entry);
-
-        if (_isTileSupport)
+        try
         {
-            TileUpdateManager.CreateTileUpdaterForApplication().EnableNotificationQueue(true);
+            var entry = (await Package.Current.GetAppListEntriesAsync()).First();
+            _isTileSupport = StartScreenManager.GetDefault().SupportsAppListEntry(entry);
+
+            if (_isTileSupport)
+            {
+                TileUpdateManager.CreateTileUpdaterForApplication().EnableNotificationQueue(true);
+            }
+        }
+        catch (COMException)
+        {
+            // 未打包时没有应用列表项, 磁贴能力降级为不可用.
+            _isTileSupport = false;
         }
     }
 

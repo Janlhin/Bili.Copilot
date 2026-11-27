@@ -45,7 +45,7 @@ public sealed partial class ArticleReader : LayoutUserControlBase
         double fontSize = 16,
         double lineHeight = 1.5)
     {
-        var path = Path.Combine(Package.Current.InstalledPath, "Assets/Reader");
+        var path = Path.Combine(PortableToolkit.InstalledPath, "Assets/Reader");
         var theme = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.AppTheme, ElementTheme.Default).ToString();
         if (theme == "Default")
         {

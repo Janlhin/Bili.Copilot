@@ -17,6 +17,18 @@
     <MvvmToolkitEnableINotifyPropertyChangingSupport>false</MvvmToolkitEnableINotifyPropertyChangingSupport>
     <AllowUnsafe>True</AllowUnsafe>
   </PropertyGroup>
+  <!-- 免安装 (Portable) 形态: 保留 MSIX 默认值, 由 PublishProfile 或 -p:Portable=true 切换. -->
+  <PropertyGroup Condition="'$(Portable)' == 'true'">
+    <EnableMsixTooling>false</EnableMsixTooling>
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <SelfContained>true</SelfContained>
+    <WindowsAppSdkDeploymentManagerInitialize>false</WindowsAppSdkDeploymentManagerInitialize>
+    <WindowsAppSdkBootstrapInitialize>true</WindowsAppSdkBootstrapInitialize>
+    <PublishAot>false</PublishAot>
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <PublishSingleFile>false</PublishSingleFile>
+  </PropertyGroup>
   <ItemGroup>
   	<RdXmlFile Include="rd.xml" />
   </ItemGroup>

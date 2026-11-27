@@ -186,7 +186,7 @@ internal static class GlobalDependencies
 
     public static RichasyKernel.IKernelBuilder AddSerilog(this RichasyKernel.IKernelBuilder builder)
     {
-        var loggerPath = Path.Combine(Microsoft.Windows.Storage.ApplicationData.GetDefault().LocalFolder.Path, "Logger");
+        var loggerPath = Path.Combine(PortableToolkit.LocalFolderPath, "Logger");
         if (!Directory.Exists(loggerPath))
         {
             Directory.CreateDirectory(loggerPath);
