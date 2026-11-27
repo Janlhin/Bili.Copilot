@@ -18,7 +18,7 @@ $sdk = (& $dotnet --version 2>$null)
 if ([version]$sdk -lt [version]'9.0.100') { throw "Need .NET SDK 9.0+, current is $sdk" }
 
 Write-Host "==> Publishing Portable x64 with SDK $sdk"
-& $dotnet publish $project -c Release -r win-x64 --self-contained -p:Portable=true -p:PublishProfile=portable-win-x64
+& $dotnet publish $project -c Release -r win-x64 --self-contained -p:Portable=true -p:PublishProfile=portable-win-x64 -p:SolutionDir="$repoRoot\"
 if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed, exit code $LASTEXITCODE" }
 
 $required = @(
