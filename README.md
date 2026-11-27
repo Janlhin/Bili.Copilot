@@ -102,7 +102,25 @@ git clone https://github.com/Richasy/Bili.Copilot.git
 
 ## 视频下载
 
-新版本的哔哩助理（V2）内置了 [BBDown](https://github.com/nilaoda/BBDown) 作为下载工具，也内置了 ffmpeg 作为混流工具，用户无需额外下载依赖，在视频播放下面点击下载按钮即可按需下载。
+> [!NOTE]
+> 本 fork 已将内置下载器替换为 [Janlhin/bili-suite](https://github.com/Janlhin/bili-suite)（Rust 超集版 B 站下载器）。
+> `Assets/BBDown/x64/BBDown.exe` 现在是一个薄兼容层（`tools/bbdown-shim`），负责把哔哩助理生成的 BBDown 参数
+> 翻译成 `bili.exe dl` 调用；真正的下载由同目录的 `bili.exe` 完成。原版 BBDown 保留为 `BBDown.upstream.exe`，
+> 需要回退时把它改名回 `BBDown.exe` 即可。
+
+新版本的哔哩助理（V2）原本内置 [BBDown](https://github.com/nilaoda/BBDown) 作为下载工具，也内置了 ffmpeg 作为混流工具。本 fork 改用 bili-suite 作为下载后端；首次使用前需要在 `Assets/BBDown/x64` 目录下执行一次 `bili.exe login` 完成扫码登录，因为哔哩助理传入的 Cookie/Token 不会被 bili-suite 复用。
+
+已知映射差异：
+
+| 哔哩助理侧 | bili-suite 侧 | 说明 |
+| --- | --- | --- |
+| `-e avc/hevc/av1` | `--codec` | 直接映射 |
+| `-q`（qn 码或清晰度文本） | `--max-height` | 常见 qn 码换算为高度 |
+| `-dd` | `--danmaku both` | 直接映射 |
+| `--work-dir` | `--output` | 直接映射 |
+| `-app` | `--surface app` | 番剧 gRPC 在 bili-suite 中尚未实现 |
+| `--select-page` | 暂未支持 | 会打印警告并忽略，请在下载器内选 P |
+| `--cover-only` / `--sub-only` / `--audio-only` / `--danmaku-only` | 暂未支持 | 明确报错退出，避免静默漏下 |
 
 > [!WARNING]
 > 目前 ffmpeg 仅内置了 x64 版本，如果你的设备是 Windows 10 ARM64，那么将无法使用内置的下载器。如果设备是 Windows 11，那么可以正常使用 X64 的 ffmpeg。

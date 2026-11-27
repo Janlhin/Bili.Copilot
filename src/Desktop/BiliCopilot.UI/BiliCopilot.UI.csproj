@@ -1026,6 +1026,13 @@
     <None Update="Assets\BBDown\x64\BBDown.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <!-- bili-suite 后端：BBDown.exe 是参数翻译层，bili.exe 是真正执行下载的程序。 -->
+    <None Update="Assets\BBDown\x64\bili.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\BBDown\x64\BBDown.upstream.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup Condition="'$(Platform)' == 'ARM64'">
     <None Update="Assets\BBDown\arm64\BBDown.exe">
