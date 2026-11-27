@@ -195,16 +195,21 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
         var result = await dialog.ShowAsync();
         if (result == ContentDialogResult.Primary)
         {
-            var cacheFolder = await Microsoft.Windows.Storage.ApplicationData.GetDefault().LocalCacheFolder.CreateFolderAsync("ImageExCache", CreationCollisionOption.OpenIfExists);
-            await cacheFolder.DeleteAsync(StorageDeleteOption.PermanentDelete);
+            var cacheFolderPath = Path.Combine(PortableToolkit.LocalFolderPath, "Cache", "ImageExCache");
+            if (Directory.Exists(cacheFolderPath))
+            {
+                Directory.Delete(cacheFolderPath, true);
+            }
+
             await LoadCacheSizeAsync();
         }
     }
 
     private async Task LoadCacheSizeAsync()
     {
-        var cacheFolder = await Microsoft.Windows.Storage.ApplicationData.GetDefault().LocalCacheFolder.CreateFolderAsync("ImageExCache", CreationCollisionOption.OpenIfExists);
-        var size = Directory.GetFiles(cacheFolder.Path, "*.*", SearchOption.AllDirectories)
+        var cacheFolderPath = Path.Combine(PortableToolkit.LocalFolderPath, "Cache", "ImageExCache");
+        Directory.CreateDirectory(cacheFolderPath);
+        var size = Directory.GetFiles(cacheFolderPath, "*.*", SearchOption.AllDirectories)
             .Sum(file => new FileInfo(file).Length);
         IsTotalImageCacheClearEnabled = size > 0;
         if (size == 0)

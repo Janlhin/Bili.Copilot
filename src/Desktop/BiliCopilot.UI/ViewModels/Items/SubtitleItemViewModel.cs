@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
-using Microsoft.Windows.Storage;
 using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Models.Subtitle;
 using Richasy.WinUIKernel.Share.ViewModels;
@@ -71,7 +71,7 @@ public sealed partial class SubtitleItemViewModel : ViewModelBase<SubtitleMeta>
         if (_subtitles?.Count > 0 && string.IsNullOrEmpty(_srtFilePath))
         {
             var srtContent = ConvertToSrt(_subtitles);
-            var folderPath = Path.Combine(ApplicationData.GetDefault().TemporaryPath, "Subtitles");
+            var folderPath = Path.Combine(PortableToolkit.LocalFolderPath, "Temp", "Subtitles");
             if (!Directory.Exists(folderPath))
             {
                 Directory.CreateDirectory(folderPath);
