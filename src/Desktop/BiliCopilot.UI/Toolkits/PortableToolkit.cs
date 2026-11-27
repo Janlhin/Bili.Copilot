@@ -1,6 +1,5 @@
 // Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace BiliCopilot.UI.Toolkits;
@@ -40,36 +39,26 @@ internal static class PortableToolkit
 
     /// <summary>
     /// 当前应用的 ApplicationData 实例.
-    /// 打包形态使用默认实例; 未打包形态优先使用 GetForUnpackaged,
-    /// 若当前 SDK 未提供该 API 则返回 null, 由调用方回退到 %LOCALAPPDATA%\BiliCopilot\.
+    /// 打包形态使用默认实例; 无包标识时返回 null, 由 LocalFolderPath 回退到 %LOCALAPPDATA%\BiliCopilot\.
     /// </summary>
     private static Microsoft.Windows.Storage.ApplicationData? CurrentApplicationData
     {
         get
         {
+            if (!IsPackaged)
+            {
+                return null;
+            }
+
             try
             {
-                if (IsPackaged)
-                {
-                    return Microsoft.Windows.Storage.ApplicationData.GetDefault();
-                }
-
-                // GetForUnpackaged 自 Windows App SDK 2.0 起提供, 当前仓库锁定 1.8,
-                // 运行时反射探测可同时兼容 1.8 与 2.0, 避免引用不存在的 API 导致编译失败.
-                var method = typeof(Microsoft.Windows.Storage.ApplicationData).GetMethod(
-                    "GetForUnpackaged",
-                    [typeof(string), typeof(string)]);
-                return method?.Invoke(null, ["BiliCopilot", "Portable"]) as Microsoft.Windows.Storage.ApplicationData;
+                return Microsoft.Windows.Storage.ApplicationData.GetDefault();
             }
             catch (COMException)
             {
                 return null;
             }
             catch (InvalidOperationException)
-            {
-                return null;
-            }
-            catch (TargetInvocationException)
             {
                 return null;
             }
