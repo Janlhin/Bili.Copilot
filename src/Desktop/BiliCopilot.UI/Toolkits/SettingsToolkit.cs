@@ -96,11 +96,7 @@ internal sealed class SettingsToolkit : ISettingsToolkit
     {
         if (TryGetContainer(out var container))
         {
-            if (container.Values.ContainsKey(settingName))
-            {
-                container.Values.Remove(settingName);
-            }
-
+            container.Values.Remove(settingName);
             return;
         }
 

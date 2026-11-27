@@ -25,9 +25,12 @@
     <SelfContained>true</SelfContained>
     <WindowsAppSdkDeploymentManagerInitialize>false</WindowsAppSdkDeploymentManagerInitialize>
     <WindowsAppSdkBootstrapInitialize>true</WindowsAppSdkBootstrapInitialize>
+    <WindowsAppSdkUndockedRegFreeWinRTInitialize>false</WindowsAppSdkUndockedRegFreeWinRTInitialize>
     <PublishAot>false</PublishAot>
     <PublishReadyToRun>true</PublishReadyToRun>
     <PublishSingleFile>false</PublishSingleFile>
+    <!-- WASDK 1.8 生成的 AutoInitializer 含 P/Invoke, 在 Portable 构建中屏蔽该告警. -->
+    <NoWarn>$(NoWarn);CA5392</NoWarn>
   </PropertyGroup>
   <ItemGroup>
   	<RdXmlFile Include="rd.xml" />

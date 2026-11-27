@@ -17,8 +17,27 @@ if (-not $dotnet) { throw 'dotnet SDK not found' }
 $sdk = (& $dotnet --version 2>$null)
 if ([version]$sdk -lt [version]'9.0.100') { throw "Need .NET SDK 9.0+, current is $sdk" }
 
+# Upstream does not ship native player/muxer binaries. Copy them from local paths
+# or set LIBMPV_PATH / FFMPEG_PATH before running this script.
+$assetsRoot = Join-Path $repoRoot 'src/Desktop/BiliCopilot.UI/Assets'
+$libmpvSrc = if ($env:LIBMPV_PATH) { $env:LIBMPV_PATH } else { Join-Path $env:USERPROFILE 'Downloads/Compressed/mpv.net-DW v2024.01/libmpv-2.dll' }
+$ffmpegSrc = if ($env:FFMPEG_PATH) { $env:FFMPEG_PATH } else { Join-Path $env:USERPROFILE 'AppData/Local/Programs/SmartSub/resources/app.asar.unpacked/node_modules/ffmpeg-static/ffmpeg.exe' }
+$libmpvDstDir = Join-Path $assetsRoot 'libmpv/x64'
+$ffmpegDstDir = Join-Path $assetsRoot 'ffmpeg/x64'
+New-Item -ItemType Directory -Force -Path $libmpvDstDir, $ffmpegDstDir | Out-Null
+if (Test-Path -LiteralPath $libmpvSrc) {
+    Copy-Item -LiteralPath $libmpvSrc -Destination (Join-Path $libmpvDstDir 'libmpv-2.dll') -Force
+} elseif (-not (Test-Path -LiteralPath (Join-Path $libmpvDstDir 'libmpv-2.dll'))) {
+    Write-Warning 'libmpv-2.dll not found; playback will not work. Set LIBMPV_PATH.'
+}
+if (Test-Path -LiteralPath $ffmpegSrc) {
+    Copy-Item -LiteralPath $ffmpegSrc -Destination (Join-Path $ffmpegDstDir 'ffmpeg.exe') -Force
+} elseif (-not (Test-Path -LiteralPath (Join-Path $ffmpegDstDir 'ffmpeg.exe'))) {
+    Write-Warning 'ffmpeg.exe not found; muxing will not work. Set FFMPEG_PATH.'
+}
+
 Write-Host "==> Publishing Portable x64 with SDK $sdk"
-& $dotnet publish $project -c Release -r win-x64 --self-contained -p:Portable=true -p:PublishProfile=portable-win-x64 -p:SolutionDir="$repoRoot\"
+& $dotnet publish $project -c Release -r win-x64 --self-contained -p:Portable=true -p:PublishProfile=portable-win-x64 -p:SolutionDir="$repoRoot\src\"
 if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed, exit code $LASTEXITCODE" }
 
 $required = @(
