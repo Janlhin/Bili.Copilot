@@ -3,11 +3,10 @@
 using BiliCopilot.UI.Extensions;
 using Microsoft.Graphics.Canvas;
 using Microsoft.UI;
-using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls;
 
-public sealed partial class BasicCoverImage : ImageExBase
+public sealed partial class BasicCoverImage : LocalImageExBase
 {
     private readonly static BasicScaleEffect _scaleEffect = new();
 

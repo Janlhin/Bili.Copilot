@@ -2,8 +2,8 @@
 
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
-using Richasy.WinUIKernel.Share.Base;
 using Richasy.WinUIKernel.Share.Toolkits;
+using BiliCopilot.UI.Models.Constants;
 
 namespace BiliCopilot.UI.Controls.AI;
 

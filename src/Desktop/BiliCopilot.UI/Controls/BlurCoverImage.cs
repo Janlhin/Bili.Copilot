@@ -4,11 +4,10 @@ using BiliCopilot.UI.Extensions;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Richasy.WinUI.Share.Effects;
-using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls;
 
-public sealed partial class BlurCoverImage : ImageExBase
+public sealed partial class BlurCoverImage : LocalImageExBase
 {
     /// <summary>
     /// <see cref="Offset"/> 依赖属性.

@@ -1,21 +1,23 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Controls.Local;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml.Media;
 using Richasy.BiliKernel.Models.Appearance;
-using Richasy.WinUIKernel.Share.Base;
 using Windows.Graphics;
 using WinUIEx;
+using InfoType = BiliCopilot.UI.Models.Constants.InfoType;
 
 namespace BiliCopilot.UI.Forms;
 
 /// <summary>
 /// 图片浏览窗口.
 /// </summary>
-public sealed partial class GalleryWindow : WindowBase, ITipWindow
+public sealed partial class GalleryWindow : WindowEx, ITipWindow
 {
     private bool _isActivated;
 
@@ -25,6 +27,9 @@ public sealed partial class GalleryWindow : WindowBase, ITipWindow
     public GalleryWindow(BiliImage image, List<BiliImage> list = default)
     {
         InitializeComponent();
+        AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+        AppWindow.TitleBar.IconShowOptions = (IconShowOptions)1;
+        SystemBackdrop = new MicaBackdrop();
         MainFrame.Tag = this;
         Activated += OnActivated;
         Closed += OnClosed;

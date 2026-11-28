@@ -10,9 +10,7 @@ using Richasy.AgentKernel.Chat;
 using Richasy.BiliKernel.Models.Article;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.WinUIKernel.AI.ViewModels;
-using Richasy.WinUIKernel.Share.Base;
 using Richasy.WinUIKernel.Share.Toolkits;
-using Richasy.WinUIKernel.Share.ViewModels;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace BiliCopilot.UI.ViewModels.Core;

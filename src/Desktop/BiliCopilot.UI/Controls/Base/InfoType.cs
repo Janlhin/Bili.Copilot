@@ -1,0 +1,36 @@
+// Copyright (c) Bili Copilot. All rights reserved.
+
+using BiliCopilot.UI.Models.Constants;
+
+namespace BiliCopilot.UI.Models.Constants;
+
+/// <summary>
+/// 消息类型.
+/// </summary>
+public enum InfoType
+{
+    /// <summary>
+    /// 普通消息.
+    /// </summary>
+    Information,
+
+    /// <summary>
+    /// 错误消息.
+    /// </summary>
+    Error,
+
+    /// <summary>
+    /// 警告消息.
+    /// </summary>
+    Warning,
+
+    /// <summary>
+    /// 成功消息.
+    /// </summary>
+    Success,
+
+    /// <summary>
+    /// 加载中.
+    /// </summary>
+    Loading,
+}

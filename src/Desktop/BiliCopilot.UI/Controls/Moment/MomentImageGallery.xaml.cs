@@ -2,7 +2,6 @@
 
 using BiliCopilot.UI.Forms;
 using Richasy.BiliKernel.Models.Appearance;
-using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Moment;
 

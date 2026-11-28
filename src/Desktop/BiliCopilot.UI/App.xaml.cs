@@ -101,7 +101,7 @@ public partial class App : Application
             {
                 instance.Activated += OnInstanceActivated;
             }
-            Richasy.WinUIKernel.Share.Base.ImageExBase.EnableBackgroundDecoding = false;
+            BiliCopilot.UI.Controls.LocalImageExBase.EnableBackgroundDecoding = false;
             GlobalDependencies.Initialize();
             GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().LaunchCommand.Execute(default);
         }

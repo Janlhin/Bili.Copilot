@@ -2,7 +2,6 @@
 
 using BiliCopilot.UI.ViewModels.Components;
 using Richasy.BiliKernel.Models;
-using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Comment;
 

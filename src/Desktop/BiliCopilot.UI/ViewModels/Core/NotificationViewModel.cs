@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using CommunityToolkit.Mvvm.Input;
-using Richasy.WinUIKernel.Share.Base;
 using Richasy.WinUIKernel.Share.ViewModels;
+using BiliCopilot.UI.Models.Constants;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 

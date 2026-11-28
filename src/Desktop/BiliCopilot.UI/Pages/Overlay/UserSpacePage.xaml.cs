@@ -2,7 +2,6 @@
 
 using BiliCopilot.UI.ViewModels.View;
 using Richasy.BiliKernel.Models.User;
-using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Pages.Overlay;
 

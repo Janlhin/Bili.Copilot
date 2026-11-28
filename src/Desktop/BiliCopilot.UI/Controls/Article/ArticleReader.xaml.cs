@@ -6,7 +6,6 @@ using BiliCopilot.UI.ViewModels.Core;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.Web.WebView2.Core;
 using Richasy.BiliKernel.Models.Article;
-using Richasy.WinUIKernel.Share.Base;
 using System.Text.Json;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;

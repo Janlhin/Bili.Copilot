@@ -8,7 +8,7 @@
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.Pgc"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:repeater="using:Richasy.WinUIKernel.Share.Base.Repeater"
+    xmlns:repeater="using:BiliCopilot.UI.Controls.Local"
     mc:Ignorable="d">
 
     <Grid>

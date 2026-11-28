@@ -12,7 +12,6 @@ using Richasy.MpvKernel;
 using Richasy.MpvKernel.Core.Enums;
 using Richasy.WinUIKernel.AI.ViewModels;
 using Richasy.WinUIKernel.Share;
-using Richasy.WinUIKernel.Share.Base;
 using Richasy.WinUIKernel.Share.Toolkits;
 using Windows.Storage;
 using Windows.System;

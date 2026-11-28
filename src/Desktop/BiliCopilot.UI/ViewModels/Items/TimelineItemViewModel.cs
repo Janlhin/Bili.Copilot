@@ -2,7 +2,6 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Richasy.BiliKernel.Models.Media;
-using Richasy.WinUIKernel.Share.ViewModels;
 using Windows.Globalization;
 
 namespace BiliCopilot.UI.ViewModels.Items;

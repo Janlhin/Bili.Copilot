@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using CommunityToolkit.Mvvm.Input;
-using Richasy.WinUIKernel.Share.Base;
 using System.Windows.Input;
 
 namespace BiliCopilot.UI.Controls.Comment;

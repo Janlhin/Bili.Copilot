@@ -7,7 +7,6 @@ using Richasy.BiliKernel.Models.Appearance;
 using Richasy.BiliKernel.Models.Article;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.BiliKernel.Models.User;
-using Richasy.WinUIKernel.Share.Base;
 using Windows.System;
 
 namespace BiliCopilot.UI.Controls;

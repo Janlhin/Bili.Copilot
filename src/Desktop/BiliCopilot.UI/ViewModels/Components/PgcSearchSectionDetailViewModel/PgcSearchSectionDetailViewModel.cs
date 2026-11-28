@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.Search;
 using Richasy.BiliKernel.Models.Search;
-using Richasy.WinUIKernel.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.Components;
 

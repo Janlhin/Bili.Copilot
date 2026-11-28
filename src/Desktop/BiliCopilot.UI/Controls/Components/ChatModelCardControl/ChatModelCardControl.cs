@@ -2,7 +2,6 @@
 
 using BiliCopilot.UI.Toolkits;
 using Richasy.WinUIKernel.AI.ViewModels;
-using Richasy.WinUIKernel.Share.Base;
 using Richasy.WinUIKernel.Share.Toolkits;
 using System.ComponentModel;
 

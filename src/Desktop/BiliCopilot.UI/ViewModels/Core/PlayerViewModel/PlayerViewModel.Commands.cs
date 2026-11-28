@@ -6,7 +6,6 @@ using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.MpvKernel.Core.Enums;
-using Richasy.WinUIKernel.Share.Base;
 using Richasy.WinUIKernel.Share.Toolkits;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;

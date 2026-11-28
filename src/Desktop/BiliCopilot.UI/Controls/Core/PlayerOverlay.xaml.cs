@@ -1,12 +1,13 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Controls.Local;
 using BiliCopilot.UI.ViewModels.Items;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Input;
 using Richasy.MpvKernel.Core.Enums;
-using Richasy.WinUIKernel.Share.Base;
 using Richasy.WinUIKernel.Share.Toolkits;
 using System.ComponentModel;
+using InfoType = BiliCopilot.UI.Models.Constants.InfoType;
 
 namespace BiliCopilot.UI.Controls.Core;
 

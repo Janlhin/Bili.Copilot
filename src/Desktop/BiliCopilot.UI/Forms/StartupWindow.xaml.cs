@@ -6,9 +6,9 @@ using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.View;
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Richasy.BiliKernel.Bili.Authorization;
-using Richasy.WinUIKernel.Share.Base;
 using WinUIEx;
 
 namespace BiliCopilot.UI.Forms;
@@ -16,7 +16,7 @@ namespace BiliCopilot.UI.Forms;
 /// <summary>
 /// 初始窗口.
 /// </summary>
-public sealed partial class StartupWindow : WindowBase
+public sealed partial class StartupWindow : WindowEx
 {
     private bool _isFirstActivated = true;
 
@@ -26,6 +26,9 @@ public sealed partial class StartupWindow : WindowBase
     public StartupWindow()
     {
         InitializeComponent();
+        AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+        AppWindow.TitleBar.IconShowOptions = (IconShowOptions)1;
+        SystemBackdrop = new MicaBackdrop();
         IsMaximizable = false;
         IsMinimizable = false;
         IsResizable = false;

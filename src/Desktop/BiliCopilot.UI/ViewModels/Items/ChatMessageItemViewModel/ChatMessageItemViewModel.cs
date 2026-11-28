@@ -4,7 +4,6 @@ using BiliCopilot.UI.Toolkits;
 using Humanizer;
 using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.BiliKernel.Models.User;
-using Richasy.WinUIKernel.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.Items;
 

@@ -3,7 +3,6 @@
 using BiliCopilot.UI.Pages;
 using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.WinUI.Animations;
-using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls;
 

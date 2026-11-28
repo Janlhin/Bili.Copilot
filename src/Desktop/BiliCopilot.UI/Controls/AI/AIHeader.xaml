@@ -1,10 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <local:AIControlBase
     x:Class="BiliCopilot.UI.Controls.AI.AIHeader"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:ai="using:Richasy.WinUIKernel.AI"
-    xmlns:aiVM="using:Richasy.WinUIKernel.AI.ViewModels"
+    xmlns:ai="using:BiliCopilot.UI.Controls.Local"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
@@ -15,13 +14,13 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <DataTemplate x:Key="ServiceItemTemplate" x:DataType="aiVM:ChatServiceItemViewModel">
+        <DataTemplate x:Key="ServiceItemTemplate">
             <Button
                 Padding="12,8"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Left"
                 Click="OnServiceItemClick"
-                DataContext="{x:Bind}">
+                DataContext="{Binding}">
                 <Grid ColumnSpacing="12">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -33,13 +32,13 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         IsAvatar="True"
-                        Provider="{x:Bind ProviderType}" />
+                        Provider="{Binding ProviderType}" />
                     <TextBlock
                         Grid.Column="1"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         MaxLines="1"
-                        Text="{x:Bind Name}"
+                        Text="{Binding Name}"
                         TextTrimming="CharacterEllipsis" />
                 </Grid>
             </Button>
@@ -101,8 +100,8 @@
             SelectedItem="{x:Bind ViewModel.SelectedModel, Mode=TwoWay}"
             Visibility="{x:Bind ViewModel.IsNoModel, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
             <ComboBox.ItemTemplate>
-                <DataTemplate x:DataType="aiVM:ChatModelItemViewModel">
-                    <TextBlock Text="{x:Bind Name}" />
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" />
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>

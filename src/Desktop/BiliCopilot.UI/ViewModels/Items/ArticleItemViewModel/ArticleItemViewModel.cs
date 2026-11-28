@@ -10,8 +10,6 @@ using Humanizer;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models.Article;
-using Richasy.WinUIKernel.Share.Base;
-using Richasy.WinUIKernel.Share.ViewModels;
 using System.Globalization;
 using Windows.Globalization;
 using WinRT;

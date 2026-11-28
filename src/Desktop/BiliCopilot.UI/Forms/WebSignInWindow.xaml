@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<base:WindowBase
+<winuiEx:WindowEx
     x:Class="BiliCopilot.UI.Forms.WebSignInWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:base="using:BiliCopilot.UI.Controls.Local"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:local="using:BiliCopilot.UI.Forms"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:winuiEx="using:WinUIEx"
     mc:Ignorable="d">
 
     <Grid>
@@ -28,4 +29,4 @@
             Loaded="OnLoadedAsync"
             NavigationCompleted="OnNavigationCompletedAsync" />
     </Grid>
-</base:WindowBase>
+</winuiEx:WindowEx>

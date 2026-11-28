@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:BiliCopilot.UI.Controls.Local"
+    xmlns:ctrl="using:BiliCopilot.UI.Controls.Local"
+    xmlns:local="using:BiliCopilot.UI.Controls">
+
+    <converters:BoolToVisibilityConverter x:Key="ImageBoolToVisibilityConverter" />
+
+    <Style BasedOn="{StaticResource DefaultImageExBaseStyle}" TargetType="local:LocalImageExBase" />
+
+    <Style x:Key="DefaultImageExBaseStyle" TargetType="local:LocalImageExBase">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:LocalImageExBase">
+                    <Grid
+                        x:Name="Root"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        FlowDirection="LeftToRight">
+                        <ctrl:Shimmer
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            IsActive="{TemplateBinding IsImageLoading}"
+                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsImageLoading, Mode=OneWay, Converter={StaticResource ImageBoolToVisibilityConverter}}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

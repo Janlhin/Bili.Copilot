@@ -1,4 +1,3 @@
-using Richasy.WinUIKernel.Share.Base;
 using System.Windows.Input;
 
 namespace BiliCopilot.UI.Controls;

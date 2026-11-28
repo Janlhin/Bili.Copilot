@@ -5,8 +5,8 @@ using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.View;
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml.Media;
 using Richasy.BiliKernel.Bili.Authorization;
-using Richasy.WinUIKernel.Share.Base;
 using WinUIEx;
 
 namespace BiliCopilot.UI.Forms;
@@ -14,7 +14,7 @@ namespace BiliCopilot.UI.Forms;
 /// <summary>
 /// 网页登录窗口.
 /// </summary>
-public sealed partial class WebSignInWindow : WindowBase
+public sealed partial class WebSignInWindow : WindowEx
 {
     private CancellationTokenSource _cancellationTokenSource = new();
 
@@ -24,6 +24,9 @@ public sealed partial class WebSignInWindow : WindowBase
     public WebSignInWindow()
     {
         InitializeComponent();
+        AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+        AppWindow.TitleBar.IconShowOptions = (IconShowOptions)1;
+        SystemBackdrop = new MicaBackdrop();
         AppWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
 
         Width = 1200;

@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Controls.Local;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
@@ -8,17 +9,18 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Input;
-using Richasy.WinUIKernel.Share.Base;
+using Microsoft.UI.Xaml.Media;
 using Richasy.WinUIKernel.Share.Toolkits;
 using Windows.Graphics;
 using WinUIEx;
+using InfoType = BiliCopilot.UI.Models.Constants.InfoType;
 
 namespace BiliCopilot.UI.Forms;
 
 /// <summary>
 /// 主窗口.
 /// </summary>
-public sealed partial class MainWindow : WindowBase, ITipWindow
+public sealed partial class MainWindow : WindowEx, ITipWindow
 {
     private const int WindowMinWidth = 640;
     private const int WindowMinHeight = 480;
@@ -30,6 +32,9 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
     public MainWindow()
     {
         InitializeComponent();
+        AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+        AppWindow.TitleBar.IconShowOptions = (IconShowOptions)1;
+        SystemBackdrop = new MicaBackdrop();
         SetTitleBar(RootLayout.GetMainTitleBar());
         Title = ResourceToolkit.GetLocalizedString(StringNames.AppName);
         this.SetIcon("Assets/logo.ico");

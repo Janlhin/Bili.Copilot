@@ -7,7 +7,6 @@ using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Hosting;
-using Richasy.WinUIKernel.Share.Base;
 using Windows.Graphics;
 using Windows.Win32.UI.WindowsAndMessaging;
 using WinUIEx;

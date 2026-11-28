@@ -9,7 +9,7 @@
     xmlns:local="using:BiliCopilot.UI.Controls.Player"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:media="using:Richasy.BiliKernel.Models.Media"
-    xmlns:repeater="using:Richasy.WinUIKernel.Share.Base.Repeater"
+    xmlns:repeater="using:BiliCopilot.UI.Controls.Local"
     mc:Ignorable="d">
 
     <Grid RowSpacing="8">

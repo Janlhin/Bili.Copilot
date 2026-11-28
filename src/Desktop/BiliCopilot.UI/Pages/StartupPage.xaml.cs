@@ -3,7 +3,6 @@
 using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.View;
-using Richasy.WinUIKernel.Share.Base;
 using Windows.System;
 
 namespace BiliCopilot.UI.Pages;

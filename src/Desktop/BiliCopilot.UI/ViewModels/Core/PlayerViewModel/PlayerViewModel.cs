@@ -12,7 +12,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
-using Richasy.WinUIKernel.Share.ViewModels;
 using WinUIEx;
 
 namespace BiliCopilot.UI.ViewModels.Core;

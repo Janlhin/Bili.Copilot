@@ -11,7 +11,6 @@ using Richasy.BiliKernel.Bili.Comment;
 using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Models;
 using Richasy.BiliKernel.Models.Media;
-using Richasy.WinUIKernel.Share.Base;
 using RichasyKernel;
 using System.Text.RegularExpressions;
 
