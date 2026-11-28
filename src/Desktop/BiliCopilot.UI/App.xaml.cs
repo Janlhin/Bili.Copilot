@@ -35,20 +35,28 @@ public partial class App : Application
         InitializeComponent();
         _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         UnhandledException += OnUnhandledException;
-        try
+        if (PortableToolkit.IsPackaged)
         {
-            _notificationManager = AppNotificationManager.Default;
-            _notificationManager.NotificationInvoked += OnAppNotificationInvoked;
-            _notificationManager.Register();
+            try
+            {
+                _notificationManager = AppNotificationManager.Default;
+                _notificationManager.NotificationInvoked += OnAppNotificationInvoked;
+                _notificationManager.Register();
+            }
+            catch (COMException)
+            {
+                // 未注册 AUMID 时通知不可用, 降级为应用内提示.
+                _notificationManager = null;
+            }
+            catch (InvalidOperationException)
+            {
+                // 无包标识会投影为 InvalidOperationException, 同样禁用通知.
+                _notificationManager = null;
+            }
         }
-        catch (COMException)
+        else
         {
-            // 未打包且未注册 AUMID 时通知不可用, 降级为应用内提示.
-            _notificationManager = null;
-        }
-        catch (InvalidOperationException)
-        {
-            // .NET 10 下无包标识会投影为 InvalidOperationException, 同样禁用通知.
+            // Portable 进程没有包标识, 注册通知会触发 WinRT stowed exception, 直接跳过.
             _notificationManager = null;
         }
     }

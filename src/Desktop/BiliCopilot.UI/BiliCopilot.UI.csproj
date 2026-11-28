@@ -35,6 +35,10 @@
   <ItemGroup>
   	<RdXmlFile Include="rd.xml" />
   </ItemGroup>
+  <!-- Portable 通道将 .resw 作为普通文件分发，由 PortableResourceToolkit 直接读取。 -->
+  <ItemGroup Condition="'$(Portable)' == 'true'">
+    <None Include="Resources\zh-Hans-CN\Resources.resw" Link="Resources\Resources.resw" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
   <ItemGroup>
   	<None Update="$(UserProfile)\.nuget\packages\richasy.winuikernel.ai\*\contentFiles\any\net*\Assets\**\*">
   		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -9,6 +9,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using Richasy.BiliKernel.Bili.Authorization;
+using Richasy.BiliKernel.Models.Authorization;
 using Richasy.WinUIKernel.Share.Base;
 using Richasy.WinUIKernel.Share.Toolkits;
 using Richasy.WinUIKernel.Share.ViewModels;
@@ -96,7 +97,17 @@ public sealed partial class AppViewModel : ViewModelBase
 
         // 清除所有之前的badges.
         //BadgeNotificationManager.Current.ClearBadge();
-        if (_tokenResolver.GetToken() is not null)
+        BiliToken? token = null;
+        try
+        {
+            token = _tokenResolver.GetToken();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "读取登录令牌失败");
+        }
+
+        if (token is not null && PortableToolkit.IsPackaged)
         {
             IsInitialLoading = true;
             new MainWindow().Activate();
@@ -104,7 +115,15 @@ public sealed partial class AppViewModel : ViewModelBase
         }
         else
         {
-            new StartupWindow().Activate();
+            if (PortableToolkit.IsPackaged)
+            {
+                new StartupWindow().Activate();
+            }
+            else
+            {
+                // 未打包进程改用原生窗口，绕开依赖包标识的 WinUIKernel.Share 控件.
+                new PortableStartupWindow().Activate();
+            }
         }
     }
 

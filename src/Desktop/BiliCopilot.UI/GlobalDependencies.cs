@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Richasy.AgentKernel;
 using Richasy.BiliKernel;
+using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.WinUIKernel.AI;
 using Richasy.WinUIKernel.Share;
 using Richasy.WinUIKernel.Share.Toolkits;
@@ -35,7 +36,7 @@ internal static class GlobalDependencies
             return;
         }
 
-        Kernel = Kernel.CreateBuilder()
+        var kernelBuilder = Kernel.CreateBuilder()
             .AddSerilog()
             .AddDispatcherQueue()
             .AddShareToolkits()
@@ -127,8 +128,17 @@ internal static class GlobalDependencies
             .AddTransient<PgcMediaHistoryResolver>()
             .AddTransient<PlayerViewModel>()
             .AddTransient<DanmakuSendViewModel>()
-            .AddNotificationViewModel()
-            .Build();
+            .AddNotificationViewModel();
+
+        if (!PortableToolkit.IsPackaged)
+        {
+            // 未打包进程没有 ApplicationData，使用文件解析器避免无包标识异常升级为致命崩溃.
+            kernelBuilder.Services.AddSingleton<IBiliTokenResolver, PortableBiliTokenResolver>();
+            kernelBuilder.Services.AddSingleton<IBiliCookiesResolver, PortableBiliCookiesResolver>();
+            kernelBuilder.Services.AddSingleton<IResourceToolkit, PortableResourceToolkit>();
+        }
+
+        Kernel = kernelBuilder.Build();
 
         Kernel.InitializeShareKernel(Kernel.Get<ILogger<App>>());
         Kernel.InitializeAIKernel();
