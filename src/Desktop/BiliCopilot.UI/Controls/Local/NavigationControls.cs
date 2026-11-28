@@ -3,6 +3,7 @@
 using FluentSymbol = FluentIcons.Common.Symbol;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 
 namespace BiliCopilot.UI.Controls.Local;
 

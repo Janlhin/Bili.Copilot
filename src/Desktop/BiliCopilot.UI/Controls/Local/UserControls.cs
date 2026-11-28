@@ -521,6 +521,18 @@ public sealed partial class VisibilityToggleButton : LayoutUserControlBase
         "AlwaysShowWhenCollapsed", typeof(bool), typeof(VisibilityToggleButton), new PropertyMetadata(false));
 
     /// <summary>
+    /// 标识 ShowTip 依赖属性.
+    /// </summary>
+    public static readonly DependencyProperty ShowTipProperty = DependencyProperty.Register(
+        "ShowTip", typeof(string), typeof(VisibilityToggleButton), new PropertyMetadata(string.Empty));
+
+    /// <summary>
+    /// 标识 HideTip 依赖属性.
+    /// </summary>
+    public static readonly DependencyProperty HideTipProperty = DependencyProperty.Register(
+        "HideTip", typeof(string), typeof(VisibilityToggleButton), new PropertyMetadata(string.Empty));
+
+    /// <summary>
     /// 初始化 <see cref="VisibilityToggleButton"/> 的新实例.
     /// </summary>
     public VisibilityToggleButton()
@@ -556,6 +568,24 @@ public sealed partial class VisibilityToggleButton : LayoutUserControlBase
     {
         get => (bool)GetValue(AlwaysShowWhenCollapsedProperty);
         set => SetValue(AlwaysShowWhenCollapsedProperty, value);
+    }
+
+    /// <summary>
+    /// 处于显示状态时的提示.
+    /// </summary>
+    public string ShowTip
+    {
+        get => (string)GetValue(ShowTipProperty);
+        set => SetValue(ShowTipProperty, value);
+    }
+
+    /// <summary>
+    /// 处于隐藏状态时的提示.
+    /// </summary>
+    public string HideTip
+    {
+        get => (string)GetValue(HideTipProperty);
+        set => SetValue(HideTipProperty, value);
     }
 
     private void OnBtnClick(object sender, RoutedEventArgs e)

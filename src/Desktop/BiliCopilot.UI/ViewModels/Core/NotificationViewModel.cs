@@ -1,8 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models.Constants;
 using CommunityToolkit.Mvvm.Input;
 using Richasy.WinUIKernel.Share.ViewModels;
-using BiliCopilot.UI.Models.Constants;
+using RichasyInfoType = Richasy.WinUIKernel.Share.Base.InfoType;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -12,6 +13,7 @@ namespace BiliCopilot.UI.ViewModels.Core;
 public sealed partial class NotificationViewModel : INotificationViewModel
 {
     [RelayCommand]
-    private static async Task ShowTipAsync((string, InfoType) data)
-        => await GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().ShowTipCommand.ExecuteAsync(data);
+    private static async Task ShowTipAsync((string, RichasyInfoType) data)
+        => await GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().ShowTipCommand.ExecuteAsync(
+            (data.Item1, (InfoType)(int)data.Item2));
 }

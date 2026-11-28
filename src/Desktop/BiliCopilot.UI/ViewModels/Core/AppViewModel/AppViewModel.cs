@@ -105,13 +105,12 @@ public sealed partial class AppViewModel : ViewModelBase
             _logger.LogWarning(ex, "读取登录令牌失败");
         }
 
-        // 未打包进程默认使用精简窗口: Richasy.WinUIKernel.Share 的
-        // WindowBase/AppTitleBar 在无包标识进程中会触发 WinRT stowed exception (0xC000027B).
-        // 设置 BILI_PORTABLE_FULL=1 可显式尝试完整 UI (MainWindow/StartupWindow).
-        var useFullUi = !PortableToolkit.IsPackaged
-            && Environment.GetEnvironmentVariable("BILI_PORTABLE_FULL") == "1";
+        // 本地化 Richasy UI 控件与基类后，默认使用完整 UI (MainWindow/StartupWindow).
+        // 仅在显式设置 BILI_PORTABLE_MINIMAL=1 时回退到精简窗口，便于排查运行时问题.
+        var useMinimalUi = !PortableToolkit.IsPackaged
+            && Environment.GetEnvironmentVariable("BILI_PORTABLE_MINIMAL") == "1";
 
-        if (PortableToolkit.IsPackaged || useFullUi)
+        if (!useMinimalUi)
         {
             if (token is not null)
             {
@@ -126,7 +125,7 @@ public sealed partial class AppViewModel : ViewModelBase
         }
         else
         {
-            // 未打包进程改用原生窗口，绕开依赖包标识的 WinUIKernel.Share 控件.
+            // 精简窗口回退入口，绕开依赖包标识的 WinUIKernel.Share 控件.
             new PortableStartupWindow().Activate();
         }
     }
@@ -178,7 +177,7 @@ public sealed partial class AppViewModel : ViewModelBase
     private void CheckUpate()
     {
         var localVersion = SettingsToolkit.ReadLocalSetting(SettingNames.AppVersion, string.Empty);
-        var currentVersion = this.Get<IAppToolkit>().GetPackageVersion();
+        var currentVersion = AppVersionToolkit.GetVersion();
         if (localVersion != currentVersion)
         {
             SettingsToolkit.WriteLocalSetting(SettingNames.AppVersion, currentVersion);
@@ -193,7 +192,7 @@ public sealed partial class AppViewModel : ViewModelBase
     [RelayCommand]
     private async Task ShowUpdateAsync()
     {
-        var packVersion = this.Get<IAppToolkit>().GetPackageVersion();
+        var packVersion = AppVersionToolkit.GetVersion();
         var url = $"https://github.com/Richasy/Bili.Copilot/releases/tag/v{packVersion}";
         await Launcher.LaunchUriAsync(new Uri(url));
         HideUpdate();

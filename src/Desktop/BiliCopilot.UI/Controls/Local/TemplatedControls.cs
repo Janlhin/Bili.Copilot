@@ -9,6 +9,27 @@ using Microsoft.UI.Xaml.Markup;
 namespace BiliCopilot.UI.Controls.Local;
 
 /// <summary>
+/// 设置卡片的内容对齐方式.
+/// </summary>
+public enum ContentAlignment
+{
+    /// <summary>
+    /// 右对齐.
+    /// </summary>
+    Right,
+
+    /// <summary>
+    /// 左对齐.
+    /// </summary>
+    Left,
+
+    /// <summary>
+    /// 纵向排列.
+    /// </summary>
+    Vertical,
+}
+
+/// <summary>
 /// 可勾选的卡片按钮.
 /// </summary>
 public sealed class AppToggleCard : ToggleButton
@@ -255,6 +276,7 @@ public sealed class SettingsCard : ButtonBase
 /// <summary>
 /// 可展开的设置项集合.
 /// </summary>
+[ContentProperty(Name = "Content")]
 public sealed class SettingsExpander : Control
 {
     /// <summary>
