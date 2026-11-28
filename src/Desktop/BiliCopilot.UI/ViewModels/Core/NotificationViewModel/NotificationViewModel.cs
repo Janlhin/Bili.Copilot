@@ -70,6 +70,11 @@ public sealed partial class NotificationViewModel : ViewModelBase
             // 未打包时没有应用列表项, 磁贴能力降级为不可用.
             _isTileSupport = false;
         }
+        catch (InvalidOperationException)
+        {
+            // .NET 10 下无包标识会投影为 InvalidOperationException, 同样降级磁贴能力.
+            _isTileSupport = false;
+        }
     }
 
     private void OnTimerTick(object? sender, object e)

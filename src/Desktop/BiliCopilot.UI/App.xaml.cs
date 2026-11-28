@@ -24,7 +24,7 @@ public partial class App : Application
 {
     private const string Id = "Richasy.BiliCopilot";
     private readonly DispatcherQueue _dispatcherQueue;
-    private AppNotificationManager _notificationManager;
+    private AppNotificationManager? _notificationManager;
 
     /// <summary>
     /// Initializes the singleton application object.  This is the first line of authored code
@@ -35,15 +35,21 @@ public partial class App : Application
         InitializeComponent();
         _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         UnhandledException += OnUnhandledException;
-        _notificationManager = AppNotificationManager.Default;
-        _notificationManager.NotificationInvoked += OnAppNotificationInvoked;
         try
         {
+            _notificationManager = AppNotificationManager.Default;
+            _notificationManager.NotificationInvoked += OnAppNotificationInvoked;
             _notificationManager.Register();
         }
         catch (COMException)
         {
             // 未打包且未注册 AUMID 时通知不可用, 降级为应用内提示.
+            _notificationManager = null;
+        }
+        catch (InvalidOperationException)
+        {
+            // .NET 10 下无包标识会投影为 InvalidOperationException, 同样禁用通知.
+            _notificationManager = null;
         }
     }
 
@@ -68,6 +74,10 @@ public partial class App : Application
         catch (COMException)
         {
             // 未打包时单实例注册可能不可用, 直接作为独立实例启动.
+        }
+        catch (InvalidOperationException)
+        {
+            // .NET 10 下无包标识会投影为 InvalidOperationException, 同样作为独立实例启动.
         }
 
         if (instance is null || instance.IsCurrent)

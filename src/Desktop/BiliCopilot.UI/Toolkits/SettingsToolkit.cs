@@ -144,6 +144,11 @@ internal sealed class SettingsToolkit : ISettingsToolkit
             container = null!;
             return false;
         }
+        catch (InvalidOperationException)
+        {
+            container = null!;
+            return false;
+        }
     }
 
     private static Dictionary<string, JsonElement> GetFileSettings()

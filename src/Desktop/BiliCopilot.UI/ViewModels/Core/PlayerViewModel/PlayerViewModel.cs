@@ -260,10 +260,17 @@ public sealed partial class PlayerViewModel(DispatcherQueue queue, ILogger<Playe
             Window.GetWindow().Destroying += OnWindowDestroying;
             Window.SizeChanged += OnWindowSizeChanged;
             var pointerSource = InputPointerSource.GetForIsland(Window.XamlRoot?.ContentIsland);
-            pointerSource.PointerReleased += OnWindowPointerReleased;
+            if (pointerSource is not null)
+            {
+                pointerSource.PointerReleased += OnWindowPointerReleased;
+            }
+
             var keyboardSource = InputKeyboardSource.GetForIsland(Window.XamlRoot?.ContentIsland);
-            keyboardSource.KeyDown += OnWindowKeyDown;
-            keyboardSource.KeyUp += OnWindowKeyUp;
+            if (keyboardSource is not null)
+            {
+                keyboardSource.KeyDown += OnWindowKeyDown;
+                keyboardSource.KeyUp += OnWindowKeyUp;
+            }
         }
 
         var hideMainWindowOnPlay = SettingsToolkit.ReadLocalSetting(SettingNames.HideMainWindowOnPlay, true);

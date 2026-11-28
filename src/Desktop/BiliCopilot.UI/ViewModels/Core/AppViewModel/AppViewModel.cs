@@ -61,6 +61,12 @@ public sealed partial class AppViewModel : ViewModelBase
             _ = Process.Start(new ProcessStartInfo(Environment.ProcessPath!) { UseShellExecute = true });
             Application.Current.Exit();
         }
+        catch (InvalidOperationException)
+        {
+            // .NET 10 下无包标识会投影为 InvalidOperationException, 同样退回进程级重启.
+            _ = Process.Start(new ProcessStartInfo(Environment.ProcessPath!) { UseShellExecute = true });
+            Application.Current.Exit();
+        }
     }
 
     [RelayCommand]

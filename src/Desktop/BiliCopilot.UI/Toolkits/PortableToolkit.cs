@@ -113,6 +113,10 @@ internal static class PortableToolkit
             {
                 // 无包标识时 Package.Current 不可用, 走下面的回退分支.
             }
+            catch (InvalidOperationException)
+            {
+                // .NET 10 下无包标识会投影为 InvalidOperationException, 同样走回退分支.
+            }
 
             return AppContext.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar);
         }

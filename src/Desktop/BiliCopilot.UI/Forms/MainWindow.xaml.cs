@@ -230,7 +230,10 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
     private void OnRootLayoutLoaded(object sender, RoutedEventArgs e)
     {
         var keyboardSource = InputKeyboardSource.GetForIsland(RootLayout.XamlRoot?.ContentIsland);
-        keyboardSource.KeyUp += OnWindowKeyUp;
+        if (keyboardSource is not null)
+        {
+            keyboardSource.KeyUp += OnWindowKeyUp;
+        }
     }
 
     private bool IsCursorInWindow()
