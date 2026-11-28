@@ -29,6 +29,12 @@ public sealed partial class NotificationViewModel : ViewModelBase
     [RelayCommand]
     private async Task TryStartAsync()
     {
+        if (!PortableToolkit.IsPackaged)
+        {
+            _isTileSupport = false;
+            return;
+        }
+
         var isNotifyEnabled = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.IsNotificationEnabled, true);
         if (!isNotifyEnabled)
         {
@@ -54,6 +60,12 @@ public sealed partial class NotificationViewModel : ViewModelBase
     [RelayCommand]
     private async Task InitializeAsync()
     {
+        if (!PortableToolkit.IsPackaged)
+        {
+            _isTileSupport = false;
+            return;
+        }
+
         try
         {
             var entry = (await Package.Current.GetAppListEntriesAsync()).First();

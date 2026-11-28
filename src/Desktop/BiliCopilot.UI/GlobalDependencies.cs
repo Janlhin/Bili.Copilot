@@ -12,6 +12,7 @@ using Microsoft.UI.Dispatching;
 using Richasy.AgentKernel;
 using Richasy.BiliKernel;
 using Richasy.BiliKernel.Bili.Authorization;
+using Richasy.BiliKernel.Bili.User;
 using Richasy.WinUIKernel.AI;
 using Richasy.WinUIKernel.Share;
 using Richasy.WinUIKernel.Share.Toolkits;
@@ -135,6 +136,8 @@ internal static class GlobalDependencies
             // 未打包进程没有 ApplicationData，使用文件解析器避免无包标识异常升级为致命崩溃.
             kernelBuilder.Services.AddSingleton<IBiliTokenResolver, PortableBiliTokenResolver>();
             kernelBuilder.Services.AddSingleton<IBiliCookiesResolver, PortableBiliCookiesResolver>();
+            kernelBuilder.Services.AddSingleton<IMyProfileService, PortableMyProfileService>();
+            kernelBuilder.Services.AddSingleton<IFontToolkit, PortableFontToolkit>();
             kernelBuilder.Services.AddSingleton<IResourceToolkit, PortableResourceToolkit>();
         }
 

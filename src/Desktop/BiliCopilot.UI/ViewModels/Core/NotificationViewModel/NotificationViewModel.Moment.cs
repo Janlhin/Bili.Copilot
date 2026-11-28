@@ -22,6 +22,11 @@ public sealed partial class NotificationViewModel
     [RelayCommand]
     private async Task TrySendVideoMomentNotificationsAsync()
     {
+        if (!PortableToolkit.IsPackaged)
+        {
+            return;
+        }
+
         var isVideoNotifyEnabled = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.IsVideoMomentNotificationEnabled, true);
         if (!isVideoNotifyEnabled)
         {

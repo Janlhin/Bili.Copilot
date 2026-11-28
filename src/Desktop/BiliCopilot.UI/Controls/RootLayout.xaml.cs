@@ -2,6 +2,7 @@
 
 using BiliCopilot.UI.Controls.Local;
 using BiliCopilot.UI.Pages.Overlay;
+using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using Richasy.WinUIKernel.Share.ViewModels;
 
@@ -21,6 +22,10 @@ public sealed partial class RootLayout : RootLayoutBase
     {
         InitializeComponent();
         _appViewModel = this.Get<AppViewModel>();
+        if (!PortableToolkit.IsPackaged)
+        {
+            MainTitleBar.Visibility = Visibility.Collapsed;
+        }
     }
 
     /// <summary>
