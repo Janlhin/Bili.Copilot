@@ -1,10 +1,11 @@
-﻿// Copyright (c) Bili Copilot. All rights reserved.
+// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Extensions;
 using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Components;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
@@ -116,6 +117,9 @@ public sealed partial class AppViewModel : ViewModelBase
             {
                 IsInitialLoading = true;
                 new MainWindow().Activate();
+                // Portable 下自定义标题栏被隐藏，原本由 HeaderAccountControl 触发的账户初始化不会执行，
+                // 这里显式初始化账户以结束 IsInitialLoading 并显示主内容区.
+                this.Get<AccountViewModel>().InitializeCommand.Execute(default);
                 InitializeExternalCommand.Execute(default);
             }
             else
