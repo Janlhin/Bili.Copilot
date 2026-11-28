@@ -107,23 +107,29 @@ public sealed partial class AppViewModel : ViewModelBase
             _logger.LogWarning(ex, "读取登录令牌失败");
         }
 
-        if (token is not null && PortableToolkit.IsPackaged)
+        // 未打包进程默认使用精简窗口: Richasy.WinUIKernel.Share 的
+        // WindowBase/AppTitleBar 在无包标识进程中会触发 WinRT stowed exception (0xC000027B).
+        // 设置 BILI_PORTABLE_FULL=1 可显式尝试完整 UI (MainWindow/StartupWindow).
+        var useFullUi = !PortableToolkit.IsPackaged
+            && Environment.GetEnvironmentVariable("BILI_PORTABLE_FULL") == "1";
+
+        if (PortableToolkit.IsPackaged || useFullUi)
         {
-            IsInitialLoading = true;
-            new MainWindow().Activate();
-            InitializeExternalCommand.Execute(default);
-        }
-        else
-        {
-            if (PortableToolkit.IsPackaged)
+            if (token is not null)
             {
-                new StartupWindow().Activate();
+                IsInitialLoading = true;
+                new MainWindow().Activate();
+                InitializeExternalCommand.Execute(default);
             }
             else
             {
-                // 未打包进程改用原生窗口，绕开依赖包标识的 WinUIKernel.Share 控件.
-                new PortableStartupWindow().Activate();
+                new StartupWindow().Activate();
             }
+        }
+        else
+        {
+            // 未打包进程改用原生窗口，绕开依赖包标识的 WinUIKernel.Share 控件.
+            new PortableStartupWindow().Activate();
         }
     }
 

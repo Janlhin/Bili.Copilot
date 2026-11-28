@@ -44,9 +44,32 @@ Write-Host "==> Publishing Portable x64 with SDK $sdk"
 & $dotnet publish $project -c Release -r win-x64 --self-contained -p:Portable=true -p:PublishProfile=portable-win-x64 -p:SolutionDir="$repoRoot\src\"
 if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed, exit code $LASTEXITCODE" }
 
+# WASDK XAML 二进制资源 (PRI/XBF) 不会写入无包标识的 portable 输出目录,
+# 但 ms-appx:/// 资源解析依赖它们. 从中间构建目录按相对结构复制到输出目录.
+$buildBinDir = Join-Path $repoRoot 'src/_build/Release/BiliCopilot.UI/bin'
+if (-not (Test-Path -LiteralPath $buildBinDir)) {
+    throw "Build output not found: $buildBinDir (required for PRI/XBF resources)"
+}
+$buildBinDir = (Resolve-Path -LiteralPath $buildBinDir).Path
+Write-Host "==> Copying PRI/XBF resources from $buildBinDir"
+$resourceCount = 0
+Get-ChildItem -Path $buildBinDir -Recurse -File | Where-Object { $_.Extension -in '.pri', '.xbf' } | ForEach-Object {
+    $relative = $_.FullName.Substring($buildBinDir.Length).TrimStart('\', '/')
+    $destination = Join-Path $outDir $relative
+    $destinationDir = Split-Path -Parent $destination
+    if (-not (Test-Path -LiteralPath $destinationDir)) {
+        New-Item -ItemType Directory -Force -Path $destinationDir | Out-Null
+    }
+    Copy-Item -LiteralPath $_.FullName -Destination $destination -Force
+    $resourceCount++
+}
+Write-Host "    Copied $resourceCount PRI/XBF resource files."
+
 $required = @(
     'BiliCopilot.UI.exe',
     'Microsoft.ui.xaml.dll',
+    'BiliCopilot.UI.pri',
+    'App.xbf',
     'Assets/libmpv/x64/libmpv-2.dll',
     'Assets/ffmpeg/x64/ffmpeg.exe',
     'Assets/BBDown/x64/BBDown.exe',
