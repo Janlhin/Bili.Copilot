@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0-windows10.0.22621.0</TargetFramework>
+    <TargetFramework>net10.0-windows10.0.22621.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <RootNamespace>BiliCopilot.UI</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -36,7 +36,7 @@
   	<RdXmlFile Include="rd.xml" />
   </ItemGroup>
   <ItemGroup>
-  	<None Update="$(UserProfile)\.nuget\packages\richasy.winuikernel.ai\*\contentFiles\any\net9.0-windows10.0.22621\Assets\**\*">
+  	<None Update="$(UserProfile)\.nuget\packages\richasy.winuikernel.ai\*\contentFiles\any\net*\Assets\**\*">
   		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
   	</None>
   </ItemGroup>
@@ -1489,8 +1489,11 @@
     
   <!-- Publish Properties -->
   <PropertyGroup>
+    <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <!-- 非 Portable 通道才应用 AOT/R2R 默认值; Portable 由上方 Condition="'$(Portable)' == 'true'" 组优先设置。 -->
+  <PropertyGroup Condition="'$(Portable)'!='true'">
     <PublishReadyToRun>False</PublishReadyToRun>
     <PublishAot>True</PublishAot>
-    <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
   </PropertyGroup>
 </Project>

@@ -1,21 +1,25 @@
 # Portable (no-MSIX) build entry point.
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/publish-portable.ps1
-# Output: src/Desktop/BiliCopilot.UI/bin/Release/net9.0-windows10.0.22621.0/win-x64/portable/
+# Output: src/Desktop/BiliCopilot.UI/bin/Release/net10.0-windows10.0.22621.0/win-x64/portable/
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $project = Join-Path $repoRoot 'src/Desktop/BiliCopilot.UI/BiliCopilot.UI.csproj'
-$outDir = Join-Path $repoRoot 'src/Desktop/BiliCopilot.UI/bin/Release/net9.0-windows10.0.22621.0/win-x64/portable'
+$outDir = Join-Path $repoRoot 'src/Desktop/BiliCopilot.UI/bin/Release/net10.0-windows10.0.22621.0/win-x64/portable'
 
 $dotnet = (Get-Command dotnet -ErrorAction SilentlyContinue).Source
 $localDotnet = Join-Path $env:USERPROFILE '.dotnet-portable/dotnet.exe'
 if (Test-Path -LiteralPath $localDotnet) {
     $dotnet = $localDotnet
 }
+$dotnet10 = Join-Path $env:USERPROFILE '.dotnet10/dotnet.exe'
+if (Test-Path -LiteralPath $dotnet10) {
+    $dotnet = $dotnet10
+}
 if (-not $dotnet) { throw 'dotnet SDK not found' }
 
 $sdk = (& $dotnet --version 2>$null)
-if ([version]$sdk -lt [version]'9.0.100') { throw "Need .NET SDK 9.0+, current is $sdk" }
+if ([version]$sdk -lt [version]'10.0.100') { throw "Need .NET SDK 10.0+, current is $sdk" }
 
 # Upstream does not ship native player/muxer binaries. Copy them from local paths
 # or set LIBMPV_PATH / FFMPEG_PATH before running this script.
